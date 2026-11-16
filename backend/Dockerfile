@@ -15,7 +15,8 @@ COPY --from=ghcr.io/astral-sh/uv:0.5.21 /uv /uvx /bin/
 # Copy dependency specifications
 COPY pyproject.toml uv.lock ./
 
-# Install project dependencies
+# Install project dependencies into /opt/venv (outside /app to avoid host volume clash)
+ENV UV_PROJECT_ENVIRONMENT="/opt/venv"
 RUN uv sync --frozen --no-dev
 
 # Final runtime image
@@ -33,11 +34,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN addgroup --system --gid 1000 appgroup && \
     adduser --system --uid 1000 --ingroup appgroup appuser
 
-# Copy virtualenv and application
-COPY --from=builder --chown=appuser:appgroup /app/.venv /app/.venv
+# Copy virtualenv to /opt/venv and application to /app
+COPY --from=builder --chown=appuser:appgroup /opt/venv /opt/venv
 COPY --chown=appuser:appgroup . /app/
 
-ENV PATH="/app/.venv/bin:$PATH" \
+ENV PATH="/opt/venv/bin:$PATH" \
+    VIRTUAL_ENV="/opt/venv" \
+    PYTHONPATH="/app" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1
 
