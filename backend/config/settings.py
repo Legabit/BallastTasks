@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     # Local apps
     "apps.tasks",
     "apps.authentication",
+    "apps.notifications",
 ]
 
 MIDDLEWARE = [
@@ -173,6 +174,15 @@ CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = TIME_ZONE
+
+from celery.schedules import crontab  # noqa: E402
+
+CELERY_BEAT_SCHEDULE = {
+    "check-due-date-reminders-hourly": {
+        "task": "apps.notifications.tasks.check_due_date_reminders",
+        "schedule": crontab(minute=0),
+    },
+}
 
 # Swagger / OpenAPI
 SWAGGER_USE_COMPAT_RENDERERS = False
