@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useState } from 'react'
 import { Calendar, Trash2, Edit3, User as UserIcon } from 'lucide-react'
 import type { Task } from '../../types/task'
 import { useAuth } from '../../context'
@@ -17,7 +17,7 @@ export const TaskList: React.FC<TaskListProps> = ({
   onDelete,
 }) => {
   const { user } = useAuth()
-  const currentTime = useMemo(() => Date.now(), [])
+  const [currentTime] = useState(() => Date.now())
 
   const priorityBadge = (priority: Task['priority']) => {
     const styles = {

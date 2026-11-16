@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useState } from 'react'
 import { Calendar, Trash2, Edit3, ArrowRightCircle } from 'lucide-react'
 import type { Task, TaskStatus } from '../../types/task'
 import { useAuth } from '../../context'
@@ -19,7 +19,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   onStatusChange,
 }) => {
   const { user } = useAuth()
-  const currentTime = useMemo(() => Date.now(), [])
+  const [currentTime] = useState(() => Date.now())
   const isCompleted = task.status === 'COMPLETED'
   const isCreator = user && task.creator && user.id === task.creator.id
 
