@@ -1,4 +1,5 @@
 from datetime import timedelta
+
 import pytest
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -92,7 +93,9 @@ class TestTaskCRUDAPI:
         res = creator_client.post(url, {"title": "   "}, format="json")
         assert res.status_code == status.HTTP_400_BAD_REQUEST
 
-    def test_retrieve_task_creator_and_assignee_allowed(self, creator, assignee, creator_client, assignee_client):
+    def test_retrieve_task_creator_and_assignee_allowed(
+        self, creator, assignee, creator_client, assignee_client
+    ):
         task = Task.objects.create(creator=creator, assignee=assignee, title="Shared Task")
         url = reverse("task-detail", kwargs={"pk": task.id})
 
@@ -115,13 +118,17 @@ class TestTaskCRUDAPI:
         task = Task.objects.create(creator=creator, title="Old Title")
         url = reverse("task-detail", kwargs={"pk": task.id})
 
-        res = creator_client.patch(url, {"title": "New Title", "status": TaskStatus.COMPLETED}, format="json")
+        res = creator_client.patch(
+            url, {"title": "New Title", "status": TaskStatus.COMPLETED}, format="json"
+        )
         assert res.status_code == status.HTTP_200_OK
         assert res.json()["title"] == "New Title"
         assert res.json()["status"] == TaskStatus.COMPLETED
 
     def test_update_task_assignee_can_update_status(self, creator, assignee, assignee_client):
-        task = Task.objects.create(creator=creator, assignee=assignee, title="Work on Bug", status=TaskStatus.TODO)
+        task = Task.objects.create(
+            creator=creator, assignee=assignee, title="Work on Bug", status=TaskStatus.TODO
+        )
         url = reverse("task-detail", kwargs={"pk": task.id})
 
         res = assignee_client.patch(url, {"status": TaskStatus.IN_PROGRESS}, format="json")
