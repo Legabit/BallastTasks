@@ -51,3 +51,19 @@ class MeView(generics.RetrieveAPIView):
     )
     def get_object(self):
         return self.request.user
+
+
+class UserListView(generics.ListAPIView):
+    """Retrieve list of user accounts to assign tasks to."""
+
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = User.objects.all().order_by("username")
+    pagination_class = None
+
+    @swagger_auto_schema(
+        operation_description="List all active user accounts for task assignment",
+        responses={200: UserSerializer(many=True), 401: "Unauthorized"},
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)

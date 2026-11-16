@@ -168,6 +168,29 @@ class TestUserProfile:
         res = client.get(me_url, HTTP_AUTHORIZATION="Bearer invalid.token.value")
         assert res.status_code == status.HTTP_401_UNAUTHORIZED
 
+    def test_users_directory_authenticated(self, client, existing_user):
+        login_url = reverse("auth-login")
+        login_res = client.post(
+            login_url,
+            {"username": "existinguser", "password": "ValidPassword123!"},
+            content_type="application/json",
+        )
+        access_token = login_res.json()["access"]
+
+        users_url = reverse("auth-users")
+        res = client.get(users_url, HTTP_AUTHORIZATION=f"Bearer {access_token}")
+        assert res.status_code == status.HTTP_200_OK
+        data = res.json()
+        assert isinstance(data, list)
+        assert len(data) >= 1
+        assert "password" not in data[0]
+        assert "username" in data[0]
+
+    def test_users_directory_unauthenticated(self, client):
+        users_url = reverse("auth-users")
+        res = client.get(users_url)
+        assert res.status_code == status.HTTP_401_UNAUTHORIZED
+
 
 @pytest.mark.django_db
 class TestAuthenticationThrottling:

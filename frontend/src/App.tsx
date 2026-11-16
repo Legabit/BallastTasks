@@ -5,7 +5,7 @@ import { PublicRoute } from './components/routing/PublicRoute'
 import { AppLayout } from './components/layout/AppLayout'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
-import { DashboardPlaceholder } from './pages/DashboardPlaceholder'
+import { TaskDashboard } from './pages/TaskDashboard'
 import { HealthView } from './pages/HealthView'
 import { NotFound } from './pages/NotFound'
 
@@ -23,7 +23,7 @@ export default function App() {
           {/* Protected Application Routes */}
           <Route element={<ProtectedRoute />}>
             <Route element={<AppLayout />}>
-              <Route path="/" element={<DashboardPlaceholder />} />
+              <Route path="/" element={<TaskDashboard />} />
               <Route path="/health" element={<HealthView />} />
             </Route>
           </Route>
