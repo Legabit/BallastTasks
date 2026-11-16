@@ -3,7 +3,7 @@ URL configuration for Task Management System.
 """
 
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import include, path, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
@@ -23,6 +23,8 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # Authentication endpoints
+    path("api/auth/", include("apps.authentication.urls")),
     # System health check
     path("api/health/", health_check, name="health-check"),
     path("health/", health_check, name="root-health-check"),
