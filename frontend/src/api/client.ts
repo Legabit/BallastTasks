@@ -1,9 +1,7 @@
 import axios, { type InternalAxiosRequestConfig } from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
-
 export const apiClient = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: '',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -90,7 +88,7 @@ apiClient.interceptors.response.use(
 
     try {
       const response = await axios.post<{ access: string; refresh?: string }>(
-        `${API_BASE_URL}/api/auth/token/refresh/`,
+        '/api/auth/token/refresh/',
         { refresh: refreshToken }
       )
 
