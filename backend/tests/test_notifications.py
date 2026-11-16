@@ -20,12 +20,16 @@ User = get_user_model()
 
 @pytest.fixture
 def user_a(db):
-    return User.objects.create_user(username="usera", email="usera@example.com", password="password123")
+    return User.objects.create_user(
+        username="usera", email="usera@example.com", password="password123"
+    )
 
 
 @pytest.fixture
 def user_b(db):
-    return User.objects.create_user(username="userb", email="userb@example.com", password="password123")
+    return User.objects.create_user(
+        username="userb", email="userb@example.com", password="password123"
+    )
 
 
 @pytest.fixture
@@ -193,7 +197,9 @@ class TestTaskAssignmentSignals:
             assignee=user_b,
         )
 
-        notif = Notification.objects.filter(recipient=user_b, notification_type=NotificationType.ASSIGNMENT).first()
+        notif = Notification.objects.filter(
+            recipient=user_b, notification_type=NotificationType.ASSIGNMENT
+        ).first()
         assert notif is not None
         assert "Signal Task" in notif.title
 

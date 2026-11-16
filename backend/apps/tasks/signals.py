@@ -30,6 +30,4 @@ def trigger_task_assignment_notification(sender, instance, created, **kwargs):
     is_new_assignment = created or getattr(instance, "_assignee_changed", False)
     if is_new_assignment:
         task_id = instance.id
-        transaction.on_commit(
-            lambda: send_task_assignment_notification.delay(task_id, assignee_id)
-        )
+        transaction.on_commit(lambda: send_task_assignment_notification.delay(task_id, assignee_id))

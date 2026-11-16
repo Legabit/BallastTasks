@@ -84,8 +84,6 @@ def check_due_date_reminders():
                 ),
             )
             reminders_created += 1
-            logger.info(
-                f"Due date reminder created for {task.assignee.username} on task {task.id}"
-            )
+            logger.info(f"Due date reminder created for {task.assignee.username} on task {task.id}")
 
     return reminders_created

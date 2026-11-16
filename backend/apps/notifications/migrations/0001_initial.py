@@ -64,12 +64,8 @@ class Migration(migrations.Migration):
             options={
                 "ordering": ["-created_at"],
                 "indexes": [
-                    models.Index(
-                        fields=["recipient", "is_read"], name="notif_recipient_read_idx"
-                    ),
-                    models.Index(
-                        fields=["task", "notification_type"], name="notif_task_type_idx"
-                    ),
+                    models.Index(fields=["recipient", "is_read"], name="notif_recipient_read_idx"),
+                    models.Index(fields=["task", "notification_type"], name="notif_task_type_idx"),
                 ],
             },
         ),
