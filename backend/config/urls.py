@@ -25,6 +25,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # Authentication endpoints
     path("api/auth/", include("apps.authentication.urls")),
+    # Tasks CRUD API
+    path("api/", include("apps.tasks.urls")),
     # System health check
     path("api/health/", health_check, name="health-check"),
     path("health/", health_check, name="root-health-check"),
