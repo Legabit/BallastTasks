@@ -29,12 +29,18 @@ docker compose up --build
 | :--- | :--- | :--- | :--- |
 | **Frontend UI** | `task_management_frontend` | [http://localhost:5173](http://localhost:5173) | React Vite application shell |
 | **Backend API** | `task_management_backend` | [http://localhost:8000](http://localhost:8000) | Django DRF REST API |
+| **Django Admin** | `task_management_backend` | [http://localhost:8000/admin/](http://localhost:8000/admin/) | Django administration panel |
 | **Health Check** | `task_management_backend` | [http://localhost:8000/api/health/](http://localhost:8000/api/health/) | JSON health status |
 | **Swagger UI** | `task_management_backend` | [http://localhost:8000/swagger/](http://localhost:8000/swagger/) | Interactive API documentation |
 | **ReDoc** | `task_management_backend` | [http://localhost:8000/redoc/](http://localhost:8000/redoc/) | ReDoc API specification |
 | **PostgreSQL** | `task_management_db` | `localhost:5432` | Relational database |
 | **Redis** | `task_management_redis` | `localhost:6379` | Cache & Celery message broker |
 | **Celery Worker** | `task_management_celery` | N/A (background) | Async worker processor |
+
+### Default Credentials (Development)
+- **Django Admin URL:** [http://localhost:8000/admin/](http://localhost:8000/admin/)
+- **Username:** `admin`
+- **Password:** `adminpassword123`
 
 ---
 

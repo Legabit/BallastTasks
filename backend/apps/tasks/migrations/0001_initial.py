@@ -84,12 +84,8 @@ class Migration(migrations.Migration):
             options={
                 "ordering": ["-created_at"],
                 "indexes": [
-                    models.Index(
-                        fields=["status", "due_date"], name="task_status_due_date_idx"
-                    ),
-                    models.Index(
-                        fields=["assignee", "status"], name="task_assignee_status_idx"
-                    ),
+                    models.Index(fields=["status", "due_date"], name="task_status_due_date_idx"),
+                    models.Index(fields=["assignee", "status"], name="task_assignee_status_idx"),
                 ],
             },
         ),

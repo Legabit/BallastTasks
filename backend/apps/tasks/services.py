@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any
+
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
 
 from .models import Task, TaskPriority, TaskStatus
 
