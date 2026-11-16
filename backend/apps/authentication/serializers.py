@@ -1,8 +1,30 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
-from rest_framework import serializers
+from django.db.models import Q
+from rest_framework import exceptions, serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 User = get_user_model()
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """Allow authenticating with either username or email."""
+
+    def validate(self, attrs):
+        username_or_email = attrs.get(self.username_field)
+        if username_or_email:
+            user = User.objects.filter(
+                Q(username__iexact=username_or_email) | Q(email__iexact=username_or_email)
+            ).first()
+            if user is not None:
+                attrs[self.username_field] = user.get_username()
+
+        try:
+            return super().validate(attrs)
+        except exceptions.AuthenticationFailed:
+            raise exceptions.AuthenticationFailed(
+                "Invalid username/email or password. Please check your credentials and try again."
+            )
 
 
 class UserSerializer(serializers.ModelSerializer):

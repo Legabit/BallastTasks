@@ -99,6 +99,18 @@ class TestJWTAuthentication:
         assert "access" in data
         assert "refresh" in data
 
+    def test_login_with_email_success(self, client, existing_user):
+        url = reverse("auth-login")
+        payload = {
+            "username": existing_user.email,
+            "password": "ValidPassword123!",
+        }
+        response = client.post(url, payload, content_type="application/json")
+        assert response.status_code == status.HTTP_200_OK
+        data = response.json()
+        assert "access" in data
+        assert "refresh" in data
+
     def test_login_invalid_credentials(self, client, existing_user):
         url = reverse("auth-login")
         payload = {
@@ -107,6 +119,7 @@ class TestJWTAuthentication:
         }
         response = client.post(url, payload, content_type="application/json")
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
+        assert "Invalid username/email or password" in response.json()["detail"]
 
     def test_token_refresh_and_rotation(self, client, existing_user):
         login_url = reverse("auth-login")

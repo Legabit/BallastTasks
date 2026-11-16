@@ -4,7 +4,11 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from .serializers import UserRegistrationSerializer, UserSerializer
+from .serializers import (
+    CustomTokenObtainPairSerializer,
+    UserRegistrationSerializer,
+    UserSerializer,
+)
 from .throttles import AuthAnonRateThrottle
 
 User = get_user_model()
@@ -30,8 +34,9 @@ class RegisterView(generics.CreateAPIView):
 
 
 class LoginView(TokenObtainPairView):
-    """Obtain JWT access and refresh token pair."""
+    """Obtain JWT access and refresh token pair using username or email."""
 
+    serializer_class = CustomTokenObtainPairSerializer
     throttle_classes = [AuthAnonRateThrottle]
 
 

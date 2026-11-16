@@ -30,11 +30,24 @@ export const Login: React.FC = () => {
       await login(username.trim(), password)
       navigate(from, { replace: true })
     } catch (err: unknown) {
-      if (axios.isAxiosError(err) && err.response?.data) {
-        const detail = err.response.data.detail || 'Invalid username or password.'
-        setError(detail)
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 401) {
+          const detail =
+            err.response.data?.detail ||
+            (Array.isArray(err.response.data?.non_field_errors)
+              ? err.response.data.non_field_errors[0]
+              : null) ||
+            'Invalid username/email or password. Please verify your credentials and try again.'
+          setError(detail)
+        } else if (err.response?.status === 429) {
+          setError('Too many login attempts. Please wait a minute and try again.')
+        } else if (err.response?.data?.detail) {
+          setError(err.response.data.detail)
+        } else {
+          setError('Login failed. Please verify connection to the server.')
+        }
       } else {
-        setError('Login failed. Please verify connection to the server.')
+        setError('An unexpected error occurred during login.')
       }
     } finally {
       setLoading(false)
