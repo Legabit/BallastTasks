@@ -161,7 +161,7 @@ export const HealthView: React.FC = () => {
         <div>
           <h4 className="font-bold text-slate-900 text-sm">Security & Token Rotation Active</h4>
           <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-            JWT session authorization headers are actively verified on all requests. 
+            JWT session authorization headers are actively verified on all requests.
             Automatic refresh token rotation and blacklisting are enforced.
           </p>
           {lastChecked && (
