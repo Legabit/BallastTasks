@@ -17,7 +17,7 @@ COPY pyproject.toml uv.lock ./
 
 # Install project dependencies into /opt/venv (outside /app to avoid host volume clash)
 ENV UV_PROJECT_ENVIRONMENT="/opt/venv"
-RUN uv sync --frozen --no-dev
+RUN uv sync --frozen
 
 # Final runtime image
 FROM python:3.12-slim AS runner
