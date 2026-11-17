@@ -249,7 +249,9 @@ class Command(BaseCommand):
             )
             seeded_tasks.append(task)
             status_text = "Created" if created else "Updated"
-            self.stdout.write(f"  - [{status_text}] Task: {task.title} [{task.status} / {task.priority}]")
+            self.stdout.write(
+                f"  - [{status_text}] Task: {task.title} [{task.status} / {task.priority}]"
+            )
 
         # 3. Seed Notifications
         notifications_data = [
@@ -315,7 +317,9 @@ class Command(BaseCommand):
                 )
                 created = True
             status_text = "Created" if created else "Existing"
-            self.stdout.write(f"  - [{status_text}] Notification for {notif.recipient.username}: {notif.title}")
+            self.stdout.write(
+                f"  - [{status_text}] Notification for {notif.recipient.username}: {notif.title}"
+            )
 
         self.stdout.write(
             self.style.SUCCESS(
